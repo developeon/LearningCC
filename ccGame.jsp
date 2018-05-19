@@ -237,6 +237,10 @@ p {
 
 		filePath = application.getRealPath("/WEB-INF/level" + level + ".txt");
 
+		int lineNum = 0; //몇개가 있는지 check
+		int selectCnt = 0; //20개만 선택할때 사용
+		int selectArray[] = new int[20];
+		Random random = new Random();
 		String tmpText = "";
 		String tmpArray1[];
 		String tmpArray2[];
@@ -244,7 +248,28 @@ p {
 		try {
 			reader = new BufferedReader(new FileReader(filePath));
 			while ((str = reader.readLine()) != null) {
+				lineNum++;
+			}
+		}catch(Exception e){
+		}finally{
+			reader.close();
+		}
+		
+		for(int i = 0; i < selectArray.length; i++){
+			selectArray[i] = random.nextInt(lineNum);
+            for(int j=0;j<i;j++)
+                if(selectArray[i]==selectArray[j]) i--;
+        }
+				
+		try{
+			reader = new BufferedReader(new FileReader(filePath));
+			while ((str = reader.readLine()) != null) {
+				for(int k = 0; k < selectArray.length; k++){
+				if(selectArray[k] == selectCnt){
 				tmpText += str + System.lineSeparator();
+				}
+				}	
+				selectCnt++;
 			}
 
 			tmpArray1 = tmpText.trim().split(System.lineSeparator());
@@ -252,22 +277,26 @@ p {
 	<div id="container">
 
 		<div id="next" alt="Next" title="Next">
-			<img src="images/right-button.png"">
+			<img src="images/right-button.png">
 		</div>
 		<div id="prev" alt="Prev" title="Prev">
 			<img src="images/left-button.png">
 		</div>
 		<center>
-			<div id="progress" style="background: #E74C3C; width: 30%;">
+			<div style="background: #E74C3C; width: 30%;">
 				Level
 				<%=level%></div>
 		</center>
+		
 		<div id="slider">
 			<%
+		
 				for (int i = 0; i < tmpArray1.length; i++) {
 						tmpArray2 = tmpArray1[i].split("\\|");
+
 			%>
-			<div class="slide">
+			<div class="slide" <% if(i==0) out.print("class = 'slide active' style='display: block;'"); else out.print("class = 'slide' style='display: none;'");%>>
+				<%= i+1 %>/20
 				<div class="firstBox">
 					<%
 						if (type.equals("word")) {
@@ -288,20 +317,35 @@ p {
 			
 					<%
 					ArrayList<String> answerList = new ArrayList<String>();
-					Random random = new Random();
+					
 					int correctIndex = (int)random.nextInt(4); 
 					
 					while(true){
-					answerList.add(meaningPlateArray[random.nextInt(meaningPlateArray.length)]);
+						if(type.equals("word")){
+							answerList.add(meaningPlateArray[random.nextInt(meaningPlateArray.length)]);
+						}
+						else{
+							answerList.add(wordPlateArray[random.nextInt(wordPlateArray.length)]);
+						}
+					
 					if(answerList.size() == 3) break;
-					}
+					} //TODO:중복제거해주기
 					
 					int j;
 					for(j= 0; j < answerList.size(); j++){
 						if(j==correctIndex){
-							%>
-							<tr><td>correct</td></tr>
-							<% 
+							
+							if(type.equals("word")){
+								%>
+								<tr><td><%= tmpArray2[2] %></td></tr>
+								<% 
+							}
+							else{
+								%>
+								<tr><td><%= tmpArray2[1] %></td></tr>
+								<% 
+							}
+							
 							break;
 						}
 						%>
@@ -310,9 +354,17 @@ p {
 					}
 					
 					if(correctIndex==3){
-						%>
-						<tr><td>correct</td></tr>
-						<%
+						if(type.equals("word")){
+							%>
+							<tr><td><%= tmpArray2[2] %></td></tr>
+							<%
+						}
+						else{
+							%>
+							<tr><td><%= tmpArray2[1] %></td></tr>
+							<%
+						}
+						
 					}
 					else{
 					while(j < answerList.size()){
@@ -331,6 +383,7 @@ p {
 
 
 			<%
+	
 				}
 				} catch (Exception e) {
 					e.printStackTrace();
