@@ -138,6 +138,7 @@ p {
 </style>
 
 <script>
+
 	$(document).ready(function() {
 		// options
 		var speed = 0; //transition speed - fade
@@ -162,6 +163,7 @@ p {
 			$('.oldActive').removeClass('oldActive');
 			$('.slide').fadeOut(speed);
 			$('.active').fadeIn(speed);
+			
 		}
 		// Switch to prev slide
 		function prevSlide() {
@@ -192,19 +194,13 @@ p {
 		});
 	});
 
-/* 	function myFunction(clickIndex) {
 
-	    var item = document.getElementById("myTable").rows[clickIndex].cells[0].textContent;
-	   
-	    alert(item);
-	  
-	} */
-	
 
 </script>
 </head>
 <body>
 	<%
+	    //String questionText = ""; //나온 문제의 pk 저장
 		BufferedReader reader = null;
 		String filePath;
 		String str;
@@ -252,8 +248,8 @@ p {
 		int selectArray[] = new int[20];
 		Random random = new Random();
 		String tmpText = "";
-		String tmpArray1[];
-		String tmpArray2[];
+		String tmpArray1[] = null;
+		String tmpArray2[] = null;
 
 		try {
 			reader = new BufferedReader(new FileReader(filePath));
@@ -285,13 +281,13 @@ p {
 			tmpArray1 = tmpText.trim().split(System.lineSeparator());
 	%>
 	<div id="container">
-
-		<div id="next" alt="Next" title="Next">
-			<img src="images/right-button.png">
+<div id="next" alt="Next" title="Next">
+			<img src="images/right-button.png"> <!--  onClick = "nextQuestion(0)" -->
 		</div>
 		<div id="prev" alt="Prev" title="Prev">
 			<img src="images/left-button.png">
-		</div>
+		</div> 
+		
 		<center>
 			<div style="background: #E74C3C; width: 30%;">
 				Level
@@ -303,7 +299,7 @@ p {
 		
 				for (int i = 0; i < tmpArray1.length; i++) {
 						tmpArray2 = tmpArray1[i].split("\\|");
-
+						/* questionText += tmpArray2[0] + ","; */
 			%>
 			<div class="slide" <% if(i==0) out.print("class = 'slide active' style='display: block;'"); else out.print("class = 'slide' style='display: none;'");%>>
 				<%= i+1 %>/20
@@ -346,31 +342,31 @@ p {
 							
 							if(type.equals("word")){
 								%>
-								<button onclick="myFunction(this.value, '<%= tmpArray2[2] %>')" value = "<%= tmpArray2[2] %>"><%= tmpArray2[2] %></button>
+								<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>, this.value, '<%= tmpArray2[2] %>')" value = "<%= tmpArray2[2] %>"><%= tmpArray2[2] %></button>
 								<% 
 							}
 							else{
 								%>
-								<button onclick="myFunction(this.value, '<%= tmpArray2[1] %>')" value = "<%= tmpArray2[1] %>"><%= tmpArray2[1] %></button>
+								<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value, '<%= tmpArray2[1] %>')" value = "<%= tmpArray2[1] %>"><%= tmpArray2[1] %></button>
 								<%  
 							}
 							
 							break;
 						}
 						%>
-						<button onclick="myFunction(this.value)" value = "<%= answerList.get(j) %>"><%= answerList.get(j) %></button>
+						<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value , '<%=tmpArray2[0] %>')" value = "<%= answerList.get(j) %>"><%= answerList.get(j) %></button>
 						<% 
 					}
 					
 					if(correctIndex==3){
 						if(type.equals("word")){
 							%>
-							<button onclick="myFunction(this.value, '<%= tmpArray2[2] %>')" value = "<%= tmpArray2[2] %>"><%= tmpArray2[2] %></button>
+							<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value, '<%= tmpArray2[2] %>')" value = "<%= tmpArray2[2] %>"><%= tmpArray2[2] %></button>
 							<%
 						}
 						else{
 							%>
-							<button onclick="myFunction(this.value, '<%= tmpArray2[1] %>')" value = "<%= tmpArray2[1] %>"><%= tmpArray2[1] %></button>
+							<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value, '<%= tmpArray2[1] %>')" value = "<%= tmpArray2[1] %>"><%= tmpArray2[1] %></button>
 							<%
 						}
 						
@@ -378,7 +374,7 @@ p {
 					else{
 					while(j < answerList.size()){
 						%>
-						<button onclick="myFunction(this.value)" value = "<%= answerList.get(j) %>"><%= answerList.get(j) %></button>
+						<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value, '<%=tmpArray2[0] %>')" value = "<%= answerList.get(j) %>"><%= answerList.get(j) %></button>
 						<% 
 						j+=1;
 					}
@@ -407,15 +403,42 @@ p {
 		</center>
 
 	</div>
+	<form name = "form1" method="post" action = "result.jsp">
+	<input type="hidden" name="wrong" value=" ">
+	<input type="hidden" name="level" value="">
+	<!-- <input type="hidden" name="type" value=""> -->
+	<input type="hidden" name="score" value="0">
+	</form>
 <script>
-function myFunction(boxValue, str) {
+var solvedCnt = 0;
+var score = 0;
+var questionNum = 3; //문항수
+<%-- document.form1.type.value = "<%= type %>"; --%>
+document.form1.level.value = "<%= level %>";
+function myFunction(itemIndex, boxValue, str) {
+	solvedCnt++;
 	if(boxValue == str){
 		alert("정답");
+		score += 5;
+		document.form1.score.value = score;
 	}
 	else{
 		alert("오답");
+		document.form1.wrong.value +=  str + ",";
 	}
+	var className = "answerBtn" + itemIndex;
+	  var elems = document.getElementsByClassName(className);
+	    for(var i = 0; i < elems.length; i++) {
+	    elems[i].disabled = true;
+	     }
+	    if(solvedCnt==questionNum){
+	    	alert("끝");
+	    	form1.submit();
+	    	<%--  location.replace("result.jsp?type=<%=type%>" + "&score=" + score); --%>
+	    	 
+	    }
 }
+
 </script>
 </body>
 </html>

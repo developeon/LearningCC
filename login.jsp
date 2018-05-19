@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <title>로그인 폼</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
-
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.js"></script>
 </head>
 <script>
 function check(){
@@ -84,9 +85,6 @@ function check(){
 		
 	</div>
 	
-	<jsp:include page="footer.jsp"></jsp:include>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
-	<script src="js/bootstrap.js"></script>
+	<jsp:include page="footer.jsp"></jsp:include>	
 </body>
 </html>
