@@ -48,6 +48,8 @@
 			
 					<li><a href="logout.jsp">로그아웃</a></li>
 					<%} else{ %>
+					<li ><a href="option.jsp">단어 학습</a></li>
+					<li><a href="gameOption.jsp">단어 게임</a></li>
 					<li><a href="logout.jsp">로그아웃</a></li>
 					<% 
 				}%>
@@ -70,6 +72,8 @@
 						<%} 
 		else{
 						%>
+						<li><a href="option.jsp">단어 학습</a></li>
+						<li><a href="gameOption.jsp">단어 게임</a></li>
 						<li ><a href="logout.jsp">로그아웃</a></li>
 						<%} %>
 					</ul></li>
@@ -95,21 +99,16 @@
 		</div>
 		
 		<section>
-		<form action="LearningCC.jsp" method="get">
-		급수입력 : <input type="number" name="level" min="1" max="8"> <br>
-		<label><input type="radio" name="type" value="word">단어
-			제시</label> <label><input type="radio" name="type" value="meaning">의미
-			제시</label> <input type="submit" value="시작">
-	</form>
+		
 			</section>
 			
 	
 		
 </div>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="js/bootstrap.js"></script>
-		
 		
 </body>
 </html>

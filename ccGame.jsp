@@ -1,5 +1,10 @@
+<%@page import="java.util.Arrays"%>
+<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.io.FileReader"%>
 <%@page import="java.io.BufferedReader"%>
+<%@page import="java.util.Random"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -24,14 +29,17 @@ body {
 	background: #424242;
 	line-height: 1.6em;
 }
+
 #container {
 	width: 50%;
 	margin: 40px auto;
 }
+
 p {
 	margin: 0;
 	padding: 0 35px 0 0;
 }
+
 #slider {
 	width: 100%;
 	height: 360px;
@@ -42,8 +50,8 @@ p {
 	border: #666 solid 2px;
 	border-radius: 15px;
 	text-align: center;
-	line-height: 180px;
 }
+
 .slide {
 	position: absolute;
 	width: 100%;
@@ -51,19 +59,22 @@ p {
 	background: white;
 	color: black;
 }
+
 .firstBox {
 	height: 180px;
 	background: white;
 	width: 100%;
+	line-height: 180px;
 }
+
 .SecondBox {
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	height: 180px;
-	background: #8BC34A;
 	width: 100%;
 }
+
 #prev, #next {
 	cursor: pointer;
 	z-index: 100;
@@ -75,14 +86,17 @@ p {
 	opacity: 0.7;
 	filter: alpha(opacity = 70);
 }
+
 #next {
 	float: right;
 	right: -70px;
 }
+
 #prev {
 	float: left;
 	left: -70px;
 }
+
 .arrow-right {
 	width: 0;
 	height: 0;
@@ -90,6 +104,7 @@ p {
 	top: 20%;
 	right: -40%;
 }
+
 .arrow-left {
 	width: 0;
 	height: 0;
@@ -99,22 +114,27 @@ p {
 }
 
 .button {
-
-    background-color: #4CAF50;
-    width:30%;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 15px 2px;
-    cursor: pointer;
-    border-radius: 15px;
+	background-color: #4CAF50;
+	width: 30%;
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 15px 2px;
+	cursor: pointer;
+	border-radius: 15px;
 }
-.blueButton {background-color: #008CBA;} 
-.redButton {background-color: #E74C3C;} 
+
+.blueButton {
+	background-color: #008CBA;
+}
+
+.redButton {
+	background-color: #E74C3C;
+}
 </style>
 
 <script>
@@ -175,33 +195,72 @@ p {
 </head>
 <body>
 	<%
-		String level = request.getParameter("level");
-		String type = request.getParameter("type");
 		BufferedReader reader = null;
-		String filePath = application.getRealPath("/WEB-INF/level" + level + ".txt");
+		String filePath;
 		String str;
-		String tmpText = "";
-		String tmpArray1[];
-		String tmpArray2[];
-		//선택한 급수에 따라 알맞은 파일 읽어오기
+
+		//meaningPlate.txt 잃기
+		filePath = application.getRealPath("/WEB-INF/meaningPlate.txt");
+		String meaningPlateText = "";
+		String meaningPlateArray[];
+
 		try {
 			reader = new BufferedReader(new FileReader(filePath));
 			while ((str = reader.readLine()) != null) {
-			
+				meaningPlateText += str;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		meaningPlateArray = meaningPlateText.split("\\|");
+		//System.out.println(Arrays.toString(meaningPlateArray));
+
+		//wordPlate.txt 읽기
+		filePath = application.getRealPath("/WEB-INF/wordPlate.txt");
+		String wordPlateText = "";
+		String wordPlateArray[];
+
+		try {
+			reader = new BufferedReader(new FileReader(filePath));
+			while ((str = reader.readLine()) != null) {
+				wordPlateText += str;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		wordPlateArray = wordPlateText.split("\\|");
+		//System.out.println(Arrays.toString(wordPlateArray));
+
+		//선택한 급수에 따라 알맞은 level.txt 읽기
+		String level = request.getParameter("level");
+		String type = request.getParameter("type");
+
+		filePath = application.getRealPath("/WEB-INF/level" + level + ".txt");
+
+		String tmpText = "";
+		String tmpArray1[];
+		String tmpArray2[];
+
+		try {
+			reader = new BufferedReader(new FileReader(filePath));
+			while ((str = reader.readLine()) != null) {
 				tmpText += str + System.lineSeparator();
 			}
+
 			tmpArray1 = tmpText.trim().split(System.lineSeparator());
 	%>
 	<div id="container">
-	
+
 		<div id="next" alt="Next" title="Next">
-		<img src="images/right-button.png"">
+			<img src="images/right-button.png"">
 		</div>
 		<div id="prev" alt="Prev" title="Prev">
 			<img src="images/left-button.png">
 		</div>
 		<center>
-			<div id="progress" style="background: #E74C3C; width: 30%;">Level <%= level %></div>
+			<div id="progress" style="background: #E74C3C; width: 30%;">
+				Level
+				<%=level%></div>
 		</center>
 		<div id="slider">
 			<%
@@ -223,19 +282,54 @@ p {
 					%>
 				</div>
 				<hr color="#FBE1E1">
-				<div class="SecondBox"></div>
-				<%
-					if (type.equals("word")) {
-				%>
-				<h1><%=tmpArray2[2]%></h1>
-				<%
-					} else {
-				%>
-				<h1><%=tmpArray2[1]%></h1>
-				<%
+				<div class="SecondBox" style="z-index: 100; background: #8BC34A;"></div>
+				<table id="myTable" border="1" width="100%" height="180px"
+					style="text-align: left;">
+			
+					<%
+					ArrayList<String> answerList = new ArrayList<String>();
+					Random random = new Random();
+					int correctIndex = (int)random.nextInt(4); 
+					
+					while(true){
+					answerList.add(meaningPlateArray[random.nextInt(meaningPlateArray.length)]);
+					if(answerList.size() == 3) break;
 					}
-				%>
+					
+					int j;
+					for(j= 0; j < answerList.size(); j++){
+						if(j==correctIndex){
+							%>
+							<tr><td>correct</td></tr>
+							<% 
+							break;
+						}
+						%>
+						<tr><td><%= answerList.get(j) %> </td></tr>
+						<% 
+					}
+					
+					if(correctIndex==3){
+						%>
+						<tr><td>correct</td></tr>
+						<%
+					}
+					else{
+					while(j < answerList.size()){
+						%>
+						<tr><td><%= answerList.get(j) %> </td></tr>
+						<% 
+						j+=1;
+					}
+					}
+					
+					%>
+				</table>
+
+
 			</div>
+
+
 			<%
 				}
 				} catch (Exception e) {
@@ -243,14 +337,14 @@ p {
 				}
 			%>
 		</div>
-			<center>
-			
-			<button class="button redButton" onClick = "location.href = 'option.jsp'">옵션 바꾸기</button>
-			<button class="button blueButton" onClick = "location.href = 'index.jsp'">그만하기</button>
+		<center>
+			<button class="button redButton"
+				onClick="location.href = 'gameOption.jsp'">옵션 바꾸기</button>
+			<button class="button blueButton"
+				onClick="location.href = 'index.jsp'">그만하기</button>
 		</center>
-		
+
 	</div>
-		
-	
+
 </body>
 </html>
