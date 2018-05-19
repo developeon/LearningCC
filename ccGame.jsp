@@ -61,7 +61,7 @@ p {
 }
 
 .firstBox {
-	height: 180px;
+	height: 157px;
 	background: white;
 	width: 100%;
 	line-height: 180px;
@@ -191,6 +191,16 @@ p {
 			}, 0);
 		});
 	});
+
+/* 	function myFunction(clickIndex) {
+
+	    var item = document.getElementById("myTable").rows[clickIndex].cells[0].textContent;
+	   
+	    alert(item);
+	  
+	} */
+	
+
 </script>
 </head>
 <body>
@@ -312,8 +322,7 @@ p {
 				</div>
 				<hr color="#FBE1E1">
 				<div class="SecondBox" style="z-index: 100; background: #8BC34A;"></div>
-				<table id="myTable" border="1" width="100%" height="180px"
-					style="text-align: left;">
+				<div width="100%" height="180px">
 			
 					<%
 					ArrayList<String> answerList = new ArrayList<String>();
@@ -337,31 +346,31 @@ p {
 							
 							if(type.equals("word")){
 								%>
-								<tr><td><%= tmpArray2[2] %></td></tr>
+								<button onclick="myFunction(this.value, '<%= tmpArray2[2] %>')" value = "<%= tmpArray2[2] %>"><%= tmpArray2[2] %></button>
 								<% 
 							}
 							else{
 								%>
-								<tr><td><%= tmpArray2[1] %></td></tr>
-								<% 
+								<button onclick="myFunction(this.value, '<%= tmpArray2[1] %>')" value = "<%= tmpArray2[1] %>"><%= tmpArray2[1] %></button>
+								<%  
 							}
 							
 							break;
 						}
 						%>
-						<tr><td><%= answerList.get(j) %> </td></tr>
+						<button onclick="myFunction(this.value)" value = "<%= answerList.get(j) %>"><%= answerList.get(j) %></button>
 						<% 
 					}
 					
 					if(correctIndex==3){
 						if(type.equals("word")){
 							%>
-							<tr><td><%= tmpArray2[2] %></td></tr>
+							<button onclick="myFunction(this.value, '<%= tmpArray2[2] %>')" value = "<%= tmpArray2[2] %>"><%= tmpArray2[2] %></button>
 							<%
 						}
 						else{
 							%>
-							<tr><td><%= tmpArray2[1] %></td></tr>
+							<button onclick="myFunction(this.value, '<%= tmpArray2[1] %>')" value = "<%= tmpArray2[1] %>"><%= tmpArray2[1] %></button>
 							<%
 						}
 						
@@ -369,14 +378,14 @@ p {
 					else{
 					while(j < answerList.size()){
 						%>
-						<tr><td><%= answerList.get(j) %> </td></tr>
+						<button onclick="myFunction(this.value)" value = "<%= answerList.get(j) %>"><%= answerList.get(j) %></button>
 						<% 
 						j+=1;
 					}
 					}
 					
 					%>
-				</table>
+				</div>
 
 
 			</div>
@@ -398,6 +407,15 @@ p {
 		</center>
 
 	</div>
-
+<script>
+function myFunction(boxValue, str) {
+	if(boxValue == str){
+		alert("정답");
+	}
+	else{
+		alert("오답");
+	}
+}
+</script>
 </body>
 </html>
