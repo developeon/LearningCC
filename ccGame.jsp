@@ -183,7 +183,7 @@ p {
 			$('.slide').fadeOut(speed);
 			$('.active').fadeIn(speed);
 		}
-		$("#slider").click(function() {
+		$(".SecondBox").click(function() {
 			$(".SecondBox").animate({
 				height : "0px"
 			}, "slow");

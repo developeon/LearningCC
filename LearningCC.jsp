@@ -56,6 +56,8 @@ p {
 
 #slider h1 {
 	line-height: 180px;
+	margin: 0px;
+	padding: 0px;
 }
 
 .slide {
@@ -144,6 +146,7 @@ p {
 </style>
 
 <script>
+
 	$(document).ready(function() {
 		// options
 		var speed = 0; //transition speed - fade
@@ -181,7 +184,7 @@ p {
 			$('.slide').fadeOut(speed);
 			$('.active').fadeIn(speed);
 		}
-		$("#slider").click(function() {
+		$(".SecondBox").click(function() {
 			$(".SecondBox").animate({
 				height : "0px"
 			}, "slow");
@@ -197,6 +200,8 @@ p {
 			}, 0);
 		});
 	});
+	
+	
 </script>
 </head>
 <body>
@@ -243,12 +248,19 @@ p {
 						out.print("class = 'slide' style='display: none;'");%>>
 
 				<div class="firstBox">
-					<div class="progress" style="position: absolute; top: 10px; left: 10px; width: 15%">
-					
+					<div class="progress"
+						style="position: absolute; top: 10px; left: 10px; width: 15%;">
+
 						<div class="progress-bar" role="progressbar" aria-valuenow="70"
-							aria-valuemin="0" aria-valuemax="100" style="width: <%=(int)(((double)i+1)/cnt * 100)%>%">
+							aria-valuemin="0" aria-valuemax="100"
+							style="width: <%=(int) (((double) i + 1) / cnt * 100)%>%">
 							<%=i + 1%>/<%=cnt%>
 						</div>
+					</div>
+					<div style="position: absolute; top: 10px; left: 40%; width: 15%;">
+						<img id="starImg<%=tmpArray2[0]%>" src="images/star1.png"
+							style="cursor: pointer;" onClick="addWordBook(<%=tmpArray2[0]%>,'<%=tmpArray2[1]%>','<%=tmpArray2[2]%>')">
+							
 					</div>
 					<%
 						if (type.equals("word")) {
@@ -262,7 +274,7 @@ p {
 						}
 					%>
 				</div>
-				<hr color="#FBE1E1">
+				<hr color="#FBE1E1" style="margin: 0px;">
 				<div class="SecondBox"></div>
 				<%
 					if (type.equals("word")) {
@@ -292,6 +304,29 @@ p {
 		</center>
 
 	</div>
+	 <script>
+	var status = "false";
+	var addList = [];
+	function addWordBook(itemIndex, item1,item2){
+		var starImg = document.getElementById("starImg" + itemIndex);
+		if(status == "false"){
+		  starImg.src = "images/star2.png";
+		  status= "true";
+	      <%
+	       //단어장에 추가 만약 이미 있다면 추가 x
+	      %>
+		}
+		else{
+			starImg.src = "images/star1.png";
+			status = "false";
+			<%
+			 //단어장에서 삭제
+			%>
+			}
+		
+	}
+	</script>
+
 
 
 </body>
