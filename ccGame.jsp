@@ -17,6 +17,12 @@
 <title>단어학습</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
 * {
 	margin: 0;
@@ -61,7 +67,7 @@ p {
 }
 
 .firstBox {
-	height: 157px;
+	height: 180px;
 	background: white;
 	width: 100%;
 	line-height: 180px;
@@ -200,7 +206,7 @@ p {
 </head>
 <body>
 	<%
-	    //String questionText = ""; //나온 문제의 pk 저장
+		//String questionText = ""; //나온 문제의 pk 저장
 		BufferedReader reader = null;
 		String filePath;
 		String str;
@@ -256,62 +262,76 @@ p {
 			while ((str = reader.readLine()) != null) {
 				lineNum++;
 			}
-		}catch(Exception e){
-		}finally{
+		} catch (Exception e) {
+		} finally {
 			reader.close();
 		}
-		
-		for(int i = 0; i < selectArray.length; i++){
+
+		for (int i = 0; i < selectArray.length; i++) {
 			selectArray[i] = random.nextInt(lineNum);
-            for(int j=0;j<i;j++)
-                if(selectArray[i]==selectArray[j]) i--;
-        }
-				
-		try{
+			for (int j = 0; j < i; j++)
+				if (selectArray[i] == selectArray[j])
+					i--;
+		}
+
+		try {
 			reader = new BufferedReader(new FileReader(filePath));
 			while ((str = reader.readLine()) != null) {
-				for(int k = 0; k < selectArray.length; k++){
-				if(selectArray[k] == selectCnt){
-				tmpText += str + System.lineSeparator();
+				for (int k = 0; k < selectArray.length; k++) {
+					if (selectArray[k] == selectCnt) {
+						tmpText += str + System.lineSeparator();
+					}
 				}
-				}	
 				selectCnt++;
 			}
 
 			tmpArray1 = tmpText.trim().split(System.lineSeparator());
 	%>
 	<div id="container">
-<div id="next" alt="Next" title="Next">
-			<img src="images/right-button.png"> <!--  onClick = "nextQuestion(0)" -->
+		<div id="next" alt="Next" title="Next">
+			<img src="images/right-button.png">
+			<!--  onClick = "nextQuestion(0)" -->
 		</div>
 		<div id="prev" alt="Prev" title="Prev">
 			<img src="images/left-button.png">
-		</div> 
-		
+		</div>
+
 		<center>
 			<div style="background: #E74C3C; width: 30%;">
-				Level
-				<%=level%></div>
+
+				<%=level%>급
+			</div>
 		</center>
-		
+
 		<div id="slider">
 			<%
-		
 				for (int i = 0; i < tmpArray1.length; i++) {
 						tmpArray2 = tmpArray1[i].split("\\|");
 						/* questionText += tmpArray2[0] + ","; */
 			%>
-			<div class="slide" <% if(i==0) out.print("class = 'slide active' style='display: block;'"); else out.print("class = 'slide' style='display: none;'");%>>
-				<%= i+1 %>/20
+			<div class="slide"
+				<%if (i == 0)
+						out.print("class = 'slide active' style='display: block;'");
+					else
+						out.print("class = 'slide' style='display: none;'");%>>
 				<div class="firstBox">
+					<div class="progress"
+						style="position: absolute; top: 10px; left: 10px; width: 15%">
+
+						<div class="progress-bar" role="progressbar" aria-valuenow="70"
+							aria-valuemin="0" aria-valuemax="100"
+							style="width: <%=(int) (((double) i + 1) / 20 * 100)%>%">
+							<%=i + 1%>/20
+						</div>
+					</div>
 					<%
 						if (type.equals("word")) {
 					%>
-					<h1><%=tmpArray2[1]%></h1>
+					<span style="line-height: 180px"><font size="24px"><%=tmpArray2[1]%></font></span>
 					<%
 						} else {
 					%>
-					<h1><%=tmpArray2[2]%></h1>
+					<span style="line-height: 180px"><font size="24px"><%=tmpArray2[1]%></font></span>
 					<%
 						}
 					%>
@@ -319,67 +339,75 @@ p {
 				<hr color="#FBE1E1">
 				<div class="SecondBox" style="z-index: 100; background: #8BC34A;"></div>
 				<div width="100%" height="180px">
-			
+
 					<%
-					ArrayList<String> answerList = new ArrayList<String>();
-					
-					int correctIndex = (int)random.nextInt(4); 
-					
-					while(true){
-						if(type.equals("word")){
-							answerList.add(meaningPlateArray[random.nextInt(meaningPlateArray.length)]);
+						ArrayList<String> answerList = new ArrayList<String>();
+
+								int correctIndex = (int) random.nextInt(4);
+
+								while (true) {
+									if (type.equals("word")) {
+										answerList.add(meaningPlateArray[random.nextInt(meaningPlateArray.length)]);
+									} else {
+										answerList.add(wordPlateArray[random.nextInt(wordPlateArray.length)]);
+									}
+
+									if (answerList.size() == 3)
+										break;
+								} //TODO:중복제거해주기
+
+								int j;
+								for (j = 0; j < answerList.size(); j++) {
+									if (j == correctIndex) {
+
+										if (type.equals("word")) {
+					%>
+					<button class="answerBtn<%=i%>"
+						onclick="myFunction(<%=i%>, this.value, '<%=tmpArray2[2]%>')"
+						value="<%=tmpArray2[2]%>"><%=tmpArray2[2]%></button>
+					<%
+						} else {
+					%>
+					<button class="answerBtn<%=i%>"
+						onclick="myFunction(<%=i%>,this.value, '<%=tmpArray2[1]%>')"
+						value="<%=tmpArray2[1]%>"><%=tmpArray2[1]%></button>
+					<%
 						}
-						else{
-							answerList.add(wordPlateArray[random.nextInt(wordPlateArray.length)]);
+
+										break;
+									}
+					%>
+					<button class="answerBtn<%=i%>"
+						onclick="myFunction(<%=i%>,this.value , '<%=tmpArray2[0]%>')"
+						value="<%=answerList.get(j)%>"><%=answerList.get(j)%></button>
+					<%
 						}
-					
-					if(answerList.size() == 3) break;
-					} //TODO:중복제거해주기
-					
-					int j;
-					for(j= 0; j < answerList.size(); j++){
-						if(j==correctIndex){
-							
-							if(type.equals("word")){
-								%>
-								<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>, this.value, '<%= tmpArray2[2] %>')" value = "<%= tmpArray2[2] %>"><%= tmpArray2[2] %></button>
-								<% 
-							}
-							else{
-								%>
-								<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value, '<%= tmpArray2[1] %>')" value = "<%= tmpArray2[1] %>"><%= tmpArray2[1] %></button>
-								<%  
-							}
-							
-							break;
+
+								if (correctIndex == 3) {
+									if (type.equals("word")) {
+					%>
+					<button class="answerBtn<%=i%>"
+						onclick="myFunction(<%=i%>,this.value, '<%=tmpArray2[2]%>')"
+						value="<%=tmpArray2[2]%>"><%=tmpArray2[2]%></button>
+					<%
+						} else {
+					%>
+					<button class="answerBtn<%=i%>"
+						onclick="myFunction(<%=i%>,this.value, '<%=tmpArray2[1]%>')"
+						value="<%=tmpArray2[1]%>"><%=tmpArray2[1]%></button>
+					<%
 						}
-						%>
-						<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value , '<%=tmpArray2[0] %>')" value = "<%= answerList.get(j) %>"><%= answerList.get(j) %></button>
-						<% 
-					}
-					
-					if(correctIndex==3){
-						if(type.equals("word")){
-							%>
-							<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value, '<%= tmpArray2[2] %>')" value = "<%= tmpArray2[2] %>"><%= tmpArray2[2] %></button>
-							<%
-						}
-						else{
-							%>
-							<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value, '<%= tmpArray2[1] %>')" value = "<%= tmpArray2[1] %>"><%= tmpArray2[1] %></button>
-							<%
-						}
-						
-					}
-					else{
-					while(j < answerList.size()){
-						%>
-						<button class = "answerBtn<%=i%>" onclick="myFunction(<%= i %>,this.value, '<%=tmpArray2[0] %>')" value = "<%= answerList.get(j) %>"><%= answerList.get(j) %></button>
-						<% 
-						j+=1;
-					}
-					}
-					
+
+								} else {
+									while (j < answerList.size()) {
+					%>
+					<button class="answerBtn<%=i%>"
+						onclick="myFunction(<%=i%>,this.value, '<%=tmpArray2[0]%>')"
+						value="<%=answerList.get(j)%>"><%=answerList.get(j)%></button>
+					<%
+						j += 1;
+									}
+								}
 					%>
 				</div>
 
@@ -388,7 +416,6 @@ p {
 
 
 			<%
-	
 				}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -403,18 +430,18 @@ p {
 		</center>
 
 	</div>
-	<form name = "form1" method="post" action = "result.jsp">
-	<input type="hidden" name="wrong" value=" ">
-	<input type="hidden" name="level" value="">
-	<!-- <input type="hidden" name="type" value=""> -->
-	<input type="hidden" name="score" value="0">
+	<form name="form1" method="post" action="result.jsp">
+		<input type="hidden" name="wrong" value=" "> <input
+			type="hidden" name="level" value="">
+		<!-- <input type="hidden" name="type" value=""> -->
+		<input type="hidden" name="score" value="0">
 	</form>
-<script>
+	<script>
 var solvedCnt = 0;
 var score = 0;
 var questionNum = 3; //문항수
 <%-- document.form1.type.value = "<%= type %>"; --%>
-document.form1.level.value = "<%= level %>";
+document.form1.level.value = "<%=level%>";
 function myFunction(itemIndex, boxValue, str) {
 	solvedCnt++;
 	if(boxValue == str){

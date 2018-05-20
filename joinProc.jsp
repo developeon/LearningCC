@@ -37,7 +37,7 @@
 			String filePath = application.getRealPath("/WEB-INF/member.txt");
 			/* System.out.println(filePath); */
 			writer = new BufferedWriter(new FileWriter(filePath, true));
-			writer.write(userID + "," + userPassword + System.lineSeparator());
+			writer.write(userID + "|" + userPassword + "|9" +  System.lineSeparator());
 		} catch (Exception e) {
 			out.print("오류 발생");
 		} finally {

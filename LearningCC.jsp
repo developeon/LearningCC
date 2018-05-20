@@ -12,6 +12,12 @@
 <title>단어학습</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
 * {
 	margin: 0;
@@ -24,14 +30,17 @@ body {
 	background: #424242;
 	line-height: 1.6em;
 }
+
 #container {
 	width: 50%;
 	margin: 40px auto;
 }
+
 p {
 	margin: 0;
 	padding: 0 35px 0 0;
 }
+
 #slider {
 	width: 100%;
 	height: 360px;
@@ -42,8 +51,13 @@ p {
 	border: #666 solid 2px;
 	border-radius: 15px;
 	text-align: center;
+	/* line-height: 180px; */
+}
+
+#slider h1 {
 	line-height: 180px;
 }
+
 .slide {
 	position: absolute;
 	width: 100%;
@@ -51,11 +65,13 @@ p {
 	background: white;
 	color: black;
 }
+
 .firstBox {
 	height: 180px;
 	background: white;
 	width: 100%;
 }
+
 .SecondBox {
 	position: absolute;
 	bottom: 0;
@@ -64,6 +80,7 @@ p {
 	background: #8BC34A;
 	width: 100%;
 }
+
 #prev, #next {
 	cursor: pointer;
 	z-index: 100;
@@ -75,14 +92,17 @@ p {
 	opacity: 0.7;
 	filter: alpha(opacity = 70);
 }
+
 #next {
 	float: right;
 	right: -70px;
 }
+
 #prev {
 	float: left;
 	left: -70px;
 }
+
 .arrow-right {
 	width: 0;
 	height: 0;
@@ -90,6 +110,7 @@ p {
 	top: 20%;
 	right: -40%;
 }
+
 .arrow-left {
 	width: 0;
 	height: 0;
@@ -99,22 +120,27 @@ p {
 }
 
 .button {
-
-    background-color: #4CAF50;
-    width:30%;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 15px 2px;
-    cursor: pointer;
-    border-radius: 15px;
+	background-color: #4CAF50;
+	width: 30%;
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 15px 2px;
+	cursor: pointer;
+	border-radius: 15px;
 }
-.blueButton {background-color: #008CBA;} 
-.redButton {background-color: #E74C3C;} 
+
+.blueButton {
+	background-color: #008CBA;
+}
+
+.redButton {
+	background-color: #E74C3C;
+}
 </style>
 
 <script>
@@ -183,41 +209,55 @@ p {
 		String tmpText = "";
 		String tmpArray1[];
 		String tmpArray2[];
+		int cnt = 0;
 		//선택한 급수에 따라 알맞은 파일 읽어오기
 		try {
 			reader = new BufferedReader(new FileReader(filePath));
 			while ((str = reader.readLine()) != null) {
-			
 				tmpText += str + System.lineSeparator();
+				cnt++;
 			}
 			tmpArray1 = tmpText.trim().split(System.lineSeparator());
 	%>
 	<div id="container">
-	
+
 		<div id="next" alt="Next" title="Next">
-		<img src="images/right-button.png"">
+			<img src="images/right-button.png"">
 		</div>
 		<div id="prev" alt="Prev" title="Prev">
 			<img src="images/left-button.png">
 		</div>
 		<center>
-			<div id="progress" style="background: #E74C3C; width: 30%;">Level <%= level %></div>
+			<div style="background: #E74C3C; width: 30%;"><%=level%>급
+			</div>
 		</center>
 		<div id="slider">
 			<%
 				for (int i = 0; i < tmpArray1.length; i++) {
 						tmpArray2 = tmpArray1[i].split("\\|");
 			%>
-			<div class="slide">
+			<div class="slide"
+				<%if (i == 0)
+						out.print("class = 'slide active' style='display: block;'");
+					else
+						out.print("class = 'slide' style='display: none;'");%>>
+
 				<div class="firstBox">
+					<div class="progress" style="position: absolute; top: 10px; left: 10px; width: 15%">
+					
+						<div class="progress-bar" role="progressbar" aria-valuenow="70"
+							aria-valuemin="0" aria-valuemax="100" style="width: <%=(int)(((double)i+1)/cnt * 100)%>%">
+							<%=i + 1%>/<%=cnt%>
+						</div>
+					</div>
 					<%
 						if (type.equals("word")) {
 					%>
-					<h1><%=tmpArray2[1]%></h1>
+					<span style="line-height: 180px"><font size="24px"><%=tmpArray2[1]%></font></span>
 					<%
 						} else {
 					%>
-					<h1><%=tmpArray2[2]%></h1>
+					<span style="line-height: 180px"><font size="24px"><%=tmpArray2[2]%></font></span>
 					<%
 						}
 					%>
@@ -243,14 +283,16 @@ p {
 				}
 			%>
 		</div>
-			<center>
-			
-			<button class="button redButton" onClick = "location.href = 'option.jsp'">옵션 바꾸기</button>
-			<button class="button blueButton" onClick = "location.href = 'index.jsp'">그만하기</button>
+		<center>
+
+			<button class="button redButton"
+				onClick="location.href = 'option.jsp'">옵션 바꾸기</button>
+			<button class="button blueButton"
+				onClick="location.href = 'index.jsp'">그만하기</button>
 		</center>
-		
+
 	</div>
-		
-	
+
+
 </body>
 </html>

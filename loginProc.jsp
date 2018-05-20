@@ -63,7 +63,7 @@
 		
 		String result = "no";
 		for(int i = 0; i< tmpArray1.length; i++){
-			tmpArray2 = tmpArray1[i].split(",");
+			tmpArray2 = tmpArray1[i].split("\\|");
 			if(tmpArray2[0].equals(userID) && tmpArray2[1].equals(userPassword)){
 					result = "ok";
 					break;
