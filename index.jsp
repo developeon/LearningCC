@@ -46,8 +46,8 @@
 				<%} 
 		else if(userID.equals("admin")){
 					%>
-					<li><a href = "insertWord.jsp">단어 추가</a></li>
-					<li><a href = "removeWord.jsp">단어 삭제</a></li>
+					<li><a href = "insertCC.jsp">단어 추가</a></li>
+					<li><a href = "removeCC.jsp">단어 삭제</a></li>
 					<li><a href="logout.jsp">로그아웃</a></li>
 					<%} else{ %>
 					<li ><a href="myPage.jsp">내 정보</a></li>
@@ -69,8 +69,8 @@
 							<%} 
 		else if(userID.equals("admin")){
 					%>
-						<li><a href = "insertWord.jsp">단어 추가</a></li>
-						<li><a href = "removeWord.jsp">단어 삭제</a></li>
+						<li><a href = "insertCC.jsp">단어 추가</a></li>
+						<li><a href = "removeCC.jsp">단어 삭제</a></li>
 						<li ><a href="logout.jsp">로그아웃</a></li>
 						
 						<%} 

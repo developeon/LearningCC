@@ -1,8 +1,7 @@
-<%@page import="java.io.FileReader"%>
-<%@page import="java.io.BufferedReader"%>
 <%@page import="java.io.FileWriter"%>
 <%@page import="java.io.BufferedWriter"%>
-
+<%@page import="java.io.FileReader"%>
+<%@page import="java.io.BufferedReader"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -13,72 +12,77 @@
 <title></title>
 </head>
 <body>
-	
 	<%
 		request.setCharacterEncoding("UTF-8");
-
+	
 		String userID = (String) session.getAttribute("userID");
-		String mode = request.getParameter("mode");
 		String level = request.getParameter("level");
-		String cc = "";
-		String meaning = "";
-		String filePath;
-		if(mode == null){
 		String pk = request.getParameter("pk");
-		//알맞은 데이터 읽어오기
+		
+		/* System.out.println(level);
+		System.out.println(pk); */
+		String filePath = "";
 		BufferedReader reader = null;
-		filePath = application.getRealPath("/WEB-INF/level" + level + ".txt");
 		String str;
+		
+		filePath = application.getRealPath("/WEB-INF/level" + level + ".txt");
 		String tmpArray[];
+		String removeCC = "";
 
 		try {
 			reader = new BufferedReader(new FileReader(filePath));
 			while ((str = reader.readLine()) != null) {
 				tmpArray = str.split("\\|");
 				if (tmpArray[0].equals(pk)) {
-					cc = tmpArray[1];
-					meaning = tmpArray[2];
+					removeCC = tmpArray[1];
 					break;
 				}
+				
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		}//학습 중 추가
-		
-		else{
-			cc = request.getParameter("cc");
-			meaning = request.getParameter("meaning");
-		}
 
-		//단어장에 쓰기
+		//회원.txt에서 removeCC뺴고 tmpText에 저장해놓고 다시쓰기 
+		filePath = application.getRealPath("/WEB-INF/" + userID + ".txt");	
+		String tmpText = "";
+		try {
+			reader = new BufferedReader(new FileReader(filePath));
+			while ((str = reader.readLine()) != null) {
+				tmpArray = str.split("\\|");
+				if (!removeCC.equals(tmpArray[1])) {
+					tmpText += str + System.lineSeparator();
+				}
+				
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		BufferedWriter writer = null;
 		try {
 			filePath = application.getRealPath("/WEB-INF/" + userID + ".txt");
-			writer = new BufferedWriter(new FileWriter(filePath, true));
-			writer.write(level + "급|" +  cc + "|" + meaning + System.lineSeparator());
+			writer = new BufferedWriter(new FileWriter(filePath, false));
+			writer.write(tmpText);
 		} catch (Exception e) {
 			out.print("오류 발생");
 		} finally {
 			writer.close();
 		}
-
-	if(mode==null){ 	%>
-	단어장에 추가되었습니다.
-	<input type="button" value="close" onClick="closePopUp()">
-	<%}
-	else{
+		
+		
 	%>
-	<!-- 추가되었다는 popup 띄우기 -->
-	 
-	<jsp:forward page="myPage.jsp"></jsp:forward>
-	<%} %>
+	
+	단어장에서 삭제되었습니다..
+	<input type="button" value="close" onClick="closePopUp()">
+	
 	<script>
 		function closePopUp() {
 			self.close();
 		}
 	</script>
 </body>
-
 </html>

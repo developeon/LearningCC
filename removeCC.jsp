@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>단어 삭제</title>
+<title>단어 추가</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.js"></script>
@@ -36,8 +36,8 @@
 				<%} 
 		else if(userID.equals("admin")){
 					%>
-					<li class="active"><a href = "insertWord.jsp">단어 추가</a></li>
-					<li  ><a href = "removeWord.jsp">단어 삭제</a></li>
+					<li><a href = "insertWord.jsp">단어 추가</a></li>
+					<li  class="active"><a href = "removeWord.jsp">단어 삭제</a></li>
 					<li><a href="logout.jsp">로그아웃</a></li>
 					<%} else{ %>
 					<li ><a href="myPage.jsp">내 정보</a></li>
@@ -59,8 +59,8 @@
 							<%} 
 		else if(userID.equals("admin")){
 					%>
-						<li class="active"><a href = "insertWord.jsp">단어 추가</a></li>
-						<li  ><a href = "removeWord.jsp">단어 삭제</a></li>
+						<li><a href = "insertCC.jsp">단어 추가</a></li>
+						<li  class="active"><a href = "removeCC.jsp">단어 삭제</a></li>
 						<li ><a href="logout.jsp">로그아웃</a></li>
 						
 						<%} 

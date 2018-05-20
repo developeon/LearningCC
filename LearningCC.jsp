@@ -227,7 +227,7 @@ p {
 	<div id="container">
 
 		<div id="next" alt="Next" title="Next">
-			<img src="images/right-button.png"">
+			<img src="images/right-button.png">
 		</div>
 		<div id="prev" alt="Prev" title="Prev">
 			<img src="images/left-button.png">
@@ -259,8 +259,9 @@ p {
 					</div>
 					<div style="position: absolute; top: 10px; left: 42%; width: 15%;">
 						<img id="starImg<%=tmpArray2[0]%>" src="images/star1.png"
-							style="cursor: pointer;" onClick="addWordBook(<%=tmpArray2[0]%>,'<%=level%>')">
-							
+							style="cursor: pointer;"
+							onClick="addWordBook(<%=tmpArray2[0]%>,'<%=level%>')">
+
 					</div>
 					<%
 						if (type.equals("word")) {
@@ -304,30 +305,23 @@ p {
 		</center>
 
 	</div>
-	 <script>
-	var status = "false";
-	
-	function addWordBook(itemIndex, level){
+	<script>
+     function addWordBook(itemIndex, level){
 		var starImg = document.getElementById("starImg" + itemIndex);
-		if(status == "false"){
-		  starImg.src = "images/star2.png";
-		  status= "true";
-		  var URL = "insertWordProc.jsp?level=" + level + "&pk=" + itemIndex;
-		  var popupX = (window.screen.width/2) - 150;
-		// 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
-
-		var popupY= (window.screen.height/2) - 100;
-		// 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
-
-		window.open(URL, '', 'status=no, height=200, width=300, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-
+		if(starImg.src.indexOf("star1") > -1){
+			  starImg.src = "images/star2.png";
+			  var URL = "insertWordProc.jsp?level=" + level + "&pk=" + itemIndex;
 		}
+		
 		else{
 			starImg.src = "images/star1.png";
-			status = "false";
+			var URL = "removeWordProc.jsp?level=" + level + "&pk=" + itemIndex;
 			
-			}
-		
+		}
+		 var popupX = (window.screen.width/2) - 150;
+		  var popupY= (window.screen.height/2) - 100;
+		  window.open(URL, '', 'status=no, height=200, width=300, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+	
 	}
 	</script>
 
