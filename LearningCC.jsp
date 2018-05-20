@@ -259,7 +259,7 @@ p {
 					</div>
 					<div style="position: absolute; top: 10px; left: 40%; width: 15%;">
 						<img id="starImg<%=tmpArray2[0]%>" src="images/star1.png"
-							style="cursor: pointer;" onClick="addWordBook(<%=tmpArray2[0]%>,'<%=tmpArray2[1]%>','<%=tmpArray2[2]%>')">
+							style="cursor: pointer;" onClick="addWordBook(<%=tmpArray2[0]%>,'<%=type%>','<%=level%>')">
 							
 					</div>
 					<%
@@ -306,22 +306,26 @@ p {
 	</div>
 	 <script>
 	var status = "false";
-	var addList = [];
-	function addWordBook(itemIndex, item1,item2){
+	
+	function addWordBook(itemIndex, type,level){
 		var starImg = document.getElementById("starImg" + itemIndex);
 		if(status == "false"){
 		  starImg.src = "images/star2.png";
 		  status= "true";
-	      <%
-	       //단어장에 추가 만약 이미 있다면 추가 x
-	      %>
+		  var URL = "insertWordProc.jsp?level=" + level + "&type=" + type + "&pk=" + itemIndex;
+		  var popupX = (window.screen.width/2) - 150;
+		// 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
+
+		var popupY= (window.screen.height/2) - 100;
+		// 만들 팝업창 상하 크기의 1/2 만큼 보정값으로 빼주었음
+
+		window.open(URL, '', 'status=no, height=200, width=300, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+
 		}
 		else{
 			starImg.src = "images/star1.png";
 			status = "false";
-			<%
-			 //단어장에서 삭제
-			%>
+			
 			}
 		
 	}
