@@ -257,9 +257,9 @@ p {
 							<%=i + 1%>/<%=cnt%>
 						</div>
 					</div>
-					<div style="position: absolute; top: 10px; left: 40%; width: 15%;">
+					<div style="position: absolute; top: 10px; left: 42%; width: 15%;">
 						<img id="starImg<%=tmpArray2[0]%>" src="images/star1.png"
-							style="cursor: pointer;" onClick="addWordBook(<%=tmpArray2[0]%>,'<%=type%>','<%=level%>')">
+							style="cursor: pointer;" onClick="addWordBook(<%=tmpArray2[0]%>,'<%=level%>')">
 							
 					</div>
 					<%
@@ -307,12 +307,12 @@ p {
 	 <script>
 	var status = "false";
 	
-	function addWordBook(itemIndex, type,level){
+	function addWordBook(itemIndex, level){
 		var starImg = document.getElementById("starImg" + itemIndex);
 		if(status == "false"){
 		  starImg.src = "images/star2.png";
 		  status= "true";
-		  var URL = "insertWordProc.jsp?level=" + level + "&type=" + type + "&pk=" + itemIndex;
+		  var URL = "insertWordProc.jsp?level=" + level + "&pk=" + itemIndex;
 		  var popupX = (window.screen.width/2) - 150;
 		// 만들 팝업창 좌우 크기의 1/2 만큼 보정값으로 빼주었음
 

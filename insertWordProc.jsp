@@ -1,3 +1,5 @@
+<%@page import="java.io.FileReader"%>
+<%@page import="java.io.BufferedReader"%>
 <%@page import="java.io.FileWriter"%>
 <%@page import="java.io.BufferedWriter"%>
 
@@ -11,38 +13,71 @@
 <title></title>
 </head>
 <body>
-단어장에 추가되었습니다.
-<input type ="button" value ="close" onClick = "closePopUp()">
-	<%
 	
+	<%
 		request.setCharacterEncoding("UTF-8");
-	    String level = request.getParameter("level");
-		String type = request.getParameter("type");
+
+		String userID = (String) session.getAttribute("userID");
+		String mode = request.getParameter("mode");
+		String level = request.getParameter("level");
+		String cc = "";
+		String meaning = "";
+		String filePath;
+		if(mode == null){
 		String pk = request.getParameter("pk");
-		String userID = (String)session.getAttribute("userID");
+		//알맞은 데이터 읽어오기
+		BufferedReader reader = null;
+		filePath = application.getRealPath("/WEB-INF/level" + level + ".txt");
+		String str;
+		String tmpArray[];
+
+		try {
+			reader = new BufferedReader(new FileReader(filePath));
+			while ((str = reader.readLine()) != null) {
+				tmpArray = str.split("\\|");
+				if (tmpArray[0].equals(pk)) {
+					cc = tmpArray[1];
+					meaning = tmpArray[2];
+					break;
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		}//학습 중 추가
 		
-		System.out.println(level);
-		System.out.println(type);
-		System.out.println(pk);
-		System.out.println(userID);
-		/*
+		else{
+			cc = request.getParameter("cc");
+			meaning = request.getParameter("meaning");
+		}
+
+		//단어장에 쓰기
 		BufferedWriter writer = null;
 		try {
-			String filePath = application.getRealPath("/WEB-INF/" + userID +".txt");
-			/* System.out.println(filePath); 
+			filePath = application.getRealPath("/WEB-INF/" + userID + ".txt");
 			writer = new BufferedWriter(new FileWriter(filePath, true));
-			writer.write(type + "|" + pk + "|" +  System.lineSeparator());
+			writer.write(level + "급|" +  cc + "|" + meaning + System.lineSeparator());
 		} catch (Exception e) {
 			out.print("오류 발생");
 		} finally {
 			writer.close();
-		}*/
-	%>
-	<script>
-	function closePopUp(){
+		}
 
-		self.close();
-	}
+	if(mode==null){ 	%>
+	단어장에 추가되었습니다.
+	<input type="button" value="close" onClick="closePopUp()">
+	<%}
+	else{
+	%>
+	<!-- 추가되었다는 popup 띄우기 -->
+	 
+	<jsp:forward page="myPage.jsp"></jsp:forward>
+	<%} %>
+	<script>ㄴ
+		function closePopUp() {
+			self.close();
+		}
 	</script>
 </body>
 
