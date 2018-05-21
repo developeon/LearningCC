@@ -331,7 +331,7 @@ p {
 					<%
 						} else {
 					%>
-					<span style="line-height: 180px"><font size="24px"><%=tmpArray2[1]%></font></span>
+					<span style="line-height: 180px"><font size="24px"><%=tmpArray2[2]%></font></span>
 					<%
 						}
 					%>
