@@ -179,7 +179,7 @@ $(window).on("load",function(){
 	    String isChange = "no";
 	    String isPerfect = "no";
 	    String wrongCC = "";
-	    int passScore = 10; //통과하는 점수
+	    int passScore = 80; //통과하는 점수
 	    
 	    Date today = new Date();	        
 	    SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");

@@ -451,7 +451,7 @@ p {
 	<script>
 var solvedCnt = 0;
 var score = 0;
-var questionNum = 3; //문항수
+var questionNum = 20; //문항수(이만큼 풀면 결과페이지로 넘어감)
 <%-- document.form1.type.value = "<%= type %>"; --%>
 document.form1.level.value = "<%=level%>";
 function myFunction(itemIndex, boxValue, str) {
