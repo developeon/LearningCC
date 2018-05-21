@@ -5,6 +5,9 @@
 <%@page import="java.io.FileReader"%>
 <%@page import="java.io.BufferedReader"%>
 <%@page import="sun.security.util.Length"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -44,7 +47,7 @@ background-image: linear-gradient(to bottom right,#02b3e4,#02ccba);
 .contain h1{
 	font-family: 'Julius Sans One', sans-serif;
 	font-size:1.4em;
-	color: #02b3e4;
+	color: #02b3e4;/* congrats 색 */
 }
 
 .congrats{
@@ -62,7 +65,7 @@ background-image: linear-gradient(to bottom right,#02b3e4,#02ccba);
 	background:#fff;
 	text-align:center;
 	font-size:2em;
-	color: #189086;
+	color: #189086; /* InfoText 색 */
 }
 
 .text{
@@ -177,6 +180,11 @@ $(window).on("load",function(){
 	    String isPerfect = "no";
 	    String wrongCC = "";
 	    int passScore = 10; //통과하는 점수
+	    
+	    Date today = new Date();	        
+	    SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+	    //System.out.println("Date: "+date.format(today));
+
 	   
 	    
 		request.setCharacterEncoding("UTF-8");
@@ -189,6 +197,7 @@ $(window).on("load",function(){
 		String userInfoArray[];
 		
 		BufferedReader reader = null;
+		BufferedWriter writer = null;
 		String filePath;
 		String str;
 		
@@ -226,7 +235,7 @@ $(window).on("load",function(){
 		if (iscore >= passScore && ilevel == iuserLevel) { // 회원의 현재 급수가 level보다 한단계 낮으면. (8급인데 1급보면 1급되는거 x 차례차례 올라오기)
 			isPass = "yes";
 		    isChange = "yes";
-			BufferedWriter writer = null;
+			//BufferedWriter writer = null;
 			try {
 				filePath = application.getRealPath("/WEB-INF/member.txt");
 				writer = new BufferedWriter(new FileWriter(filePath, false));
@@ -276,6 +285,18 @@ $(window).on("load",function(){
 						wrongCC += splitTextArray[1] + splitTextArray[2] + System.lineSeparator();
 			}
 		}
+		
+		if(isPass.equals("yes") && isChange.equals("yes")){
+			try {
+				filePath = application.getRealPath("/WEB-INF/passlist.txt");
+				writer = new BufferedWriter(new FileWriter(filePath, true));
+				writer.write(userID + "|" + date.format(today) +  "|"+ level + "|"  + score + System.lineSeparator()); 
+			} catch (Exception e) {
+				out.print("오류 발생");
+			} finally {
+				writer.close();
+			}
+		}
 		%>
 	
 	<%
@@ -295,9 +316,9 @@ $(window).on("load",function(){
 </svg>
 			</div>
 		<div class="text">
-		<p>축하합니다.  <br><%=score%>점으로 시험에 통과하셨습니다. <br>Date: 12.12.12<br>
-		
-			ID: <%= userID %>
+		<p>축하합니다.  <br><%=score%>점으로 시험에 통과하셨습니다.<br>
+		ID: <%= userID %>
+			 <br>Date: <%=date.format(today)%>
 		</p>
 			<p>
 			<%if(isChange.equals("yes")){
@@ -323,6 +344,9 @@ $(window).on("load",function(){
 			<% 
 		} //not perfect
 		%>
+		</p>
+		<p>
+		<button type="button" class="btn" onClick = "location.href = 'index.jsp'">돌아가기</button>
 		</p>
 	</div>
 </div>

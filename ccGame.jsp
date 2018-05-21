@@ -266,6 +266,18 @@ p {
 		} finally {
 			reader.close();
 		}
+		
+		 
+		 if(lineNum < 20){
+		%>
+		 <script>
+		  alert("해당 급수의 시험은 준비중입니다.");
+		  document.location.href="gameOption.jsp";
+		 </script>
+		<%
+		  return;
+		 }
+		
 
 		for (int i = 0; i < selectArray.length; i++) {
 			selectArray[i] = random.nextInt(lineNum);

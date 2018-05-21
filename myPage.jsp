@@ -120,77 +120,172 @@
 
 		</div>
 	</nav>
-
-	<div class="container">
+	
+		<div class="container">
+			
 <center>
-		<table class="table table-fixed">
-			<thead>
-				<tr style = "color:white;">
-					<th class="col-xs-3">급수</th>
-					<th class="col-xs-3">한자</th>
-					<th class="col-xs-6">뜻</th>
-				</tr>
-			</thead>
-			<tbody>
-
-				<%
-					//id.txt파일 읽어오기
-					BufferedReader reader = null;
-					String filePath = application.getRealPath("/WEB-INF/" + userID + ".txt");
-					String str;
-					String tmpArray[];
-					try {
-						reader = new BufferedReader(new FileReader(filePath));
-				
-						while ((str = reader.readLine()) != null) {
-							tmpArray = str.split("\\|");
-				%>
-				<tr>
-					<td class="col-xs-3"><%=tmpArray[0]%></td>
-					<td class="col-xs-3"><%=tmpArray[1]%></td>
-					<td class="col-xs-6"><%=tmpArray[2]%></td>
-				</tr>
-				<%
-					}
-					} catch (Exception e) {
-						//e.printStackTrace();
-						%>
-						<tr>
-					<td class="col-xs-12">등록된 한자가 없습니다. </td>
-					
-				</tr>
-						<% 
-					} 
-				%>
-
-
-
-			</tbody>
-			<tfooter>
-			<tr>
-			 <form name = "form1" action = "insertWordProc.jsp?mode=myPage" method="post">
-				<td class="col-xs-3"><input type = "number" min = "1" max = "8" class="form-control" name = "level" placeholder="N" style = "text-align: center;"></td>
-					<td class="col-xs-3"><input type = "text" class="form-control" name = "cc" placeholder="한자" style = "text-align: center;"></td>
-					<td class="col-xs-6"><input type = "text" class="form-control" name = "meaning" placeholder="뜻" style = "text-align: center;"></td>
-				</tr>
-				<tr>
-				<td class="col-xs-12">
-				<input type = "button" class="btn btn-success" value = "추가하기" onClick = "notice()">
-				</td>
-				</tr>
-			 
-			  </form>
-			</tfooter>
+	<%
+		BufferedReader reader = null;
+		String filePath;
+		String str;
+		String tmpArray[];
+		String level = "";
 		
-		</table>
+		 reader = null;
+		 filePath = application.getRealPath("/WEB-INF/member.txt");
+	
+		
+		try {
+			reader = new BufferedReader(new FileReader(filePath));
+
+			while ((str = reader.readLine()) != null) {
+				tmpArray = str.split("\\|");
+				if(tmpArray[0].equals(userID)){
+					level = tmpArray[2];
+					break;
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	
+
+	if(level.equals("9")){
+		out.print("당신은 아직 급수가 없습니다.");
+	}
+	else{
+		out.print("<h1>당신은 현재 <b>" + level + "급</b> 입니다.</h1>");
+	}
+	%>
+	<hr>
+	<h3>시험정보</h3>
+			<table class="table table-fixed">
+
+				<thead>
+					<tr style="color: white;">
+						<th class="col-xs-3">급수</th>
+						<th class="col-xs-6">시험일</th>
+						<th class="col-xs-3">점수</th>
+					</tr>
+				</thead>
+				<tbody>
+<%
+		
+						 reader = null;
+						 filePath = application.getRealPath("/WEB-INF/passlist.txt");
+					
+						int cnt = 0;
+						try {
+							reader = new BufferedReader(new FileReader(filePath));
+
+							while ((str = reader.readLine()) != null) {
+							
+								tmpArray = str.split("\\|");
+								if(tmpArray[0].equals(userID)){
+									cnt++;
+					%>
+					<tr>
+						<td class="col-xs-3"><%=tmpArray[2]%>급</td>
+						<td class="col-xs-6"><%=tmpArray[1]%></td>
+						<td class="col-xs-3"><%=tmpArray[3]%>점</td>
+					</tr>
+					<%}
+						}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						if(cnt == 0){
+							%>
+							<tr>
+						<td class="col-xs-12">시험 정보가 없습니다.</td>
+
+					</tr>
+							<% 
+						}
+					%>
+				</tbody>
+
+
+
+			</table>
+			
+			<hr>
+			<h3>자격증</h3>
+			<table class="table table-fixed">
+			
+				<thead>
+					<tr style="color: white;">
+						<th class="col-xs-3">급수</th>
+						<th class="col-xs-3">한자</th>
+						<th class="col-xs-6">뜻</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<%
+						//id.txt파일 읽어오기
+						 reader = null;
+						 filePath = application.getRealPath("/WEB-INF/" + userID + ".txt");
+					int cnt2 = 0;
+						try {
+							reader = new BufferedReader(new FileReader(filePath));
+
+							while ((str = reader.readLine()) != null) {
+								cnt++;
+								tmpArray = str.split("\\|");
+					%>
+					<tr>
+						<td class="col-xs-3"><%=tmpArray[0]%></td>
+						<td class="col-xs-3"><%=tmpArray[1]%></td>
+						<td class="col-xs-6"><%=tmpArray[2]%></td>
+					</tr>
+					<%
+						}
+						} catch (Exception e) {
+							e.printStackTrace();
+					
+						}
+					
+						if(cnt2 == 0){
+							%>
+							<tr>
+						<td class="col-xs-12">등록된 한자가 없습니다.</td>
+
+					</tr>
+							<% 
+						}
+						
+					%>
+				</tbody>
+				<tfooter>
+				<form name="form1" action="insertWordProc.jsp?mode=myPage" method="post">
+				<tr>
+					
+						<td class="col-xs-3"><input type="number" min="1" max="8"
+							class="form-control" name="level" placeholder="N"
+							style="text-align: center;"></td>
+						<td class="col-xs-3"><input type="text" class="form-control"
+							name="cc" placeholder="한자" style="text-align: center;"></td>
+						<td class="col-xs-6"><input type="text" class="form-control"
+							name="meaning" placeholder="뜻" style="text-align: center;"></td>
+				</tr>
+				<tr>
+					<td class="col-xs-12"><input type="button"
+						class="btn btn-success" value="추가하기" onClick="notice()"></td>
+				</tr>
+
+				</form>
+				</tfooter>
+
+			</table>
 </center>
 	</div>
 	<jsp:include page="footer.jsp"></jsp:include>
-<script>
-function notice(){
-	alert("추가되었습니다");
-	form1.submit();
-}
-</script>
+	<script>
+		function notice() {
+			alert("추가되었습니다");
+			form1.submit();
+		}
+	</script>
 </body>
 </html>
