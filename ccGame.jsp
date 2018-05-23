@@ -141,6 +141,8 @@ p {
 .redButton {
 	background-color: #E74C3C;
 }
+
+
 </style>
 
 <script>
@@ -205,7 +207,19 @@ p {
 </script>
 </head>
 <body>
-	<%
+<%
+ String strReferer = request.getHeader("referer");
+ 
+ if(strReferer == null){
+%>
+ <script language="javascript">
+  alert("URL 주소창에 주소를 직접 입력해서 접근하셨습니다.\n\n정상적인 경로를 통해 다시 접근해 주십시오.");
+  document.location.href="index.jsp";
+ </script>
+<%
+  return;
+ }
+
 		//String questionText = ""; //나온 문제의 pk 저장
 		BufferedReader reader = null;
 		String filePath;
@@ -348,7 +362,7 @@ p {
 						}
 					%>
 				</div>
-				<hr color="#FBE1E1">
+				<hr color="#FBE1E1" style = "margin:0px;">
 				<div class="SecondBox" style="z-index: 100; background: #8BC34A;"></div>
 				<div width="100%" height="180px">
 
@@ -374,48 +388,58 @@ p {
 
 										if (type.equals("word")) {
 					%>
+				<div style = "line-height: 40px;">
 					<button class="answerBtn<%=i%>"
 						onclick="myFunction(<%=i%>, this.value, '<%=tmpArray2[2]%>')"
-						value="<%=tmpArray2[2]%>"><%=tmpArray2[2]%></button>
+						value="<%=tmpArray2[2]%>" style="width:100%"><%=tmpArray2[2]%></button></div>
 					<%
 						} else {
 					%>
+				<div style = "line-height: 40px;">
 					<button class="answerBtn<%=i%>"
 						onclick="myFunction(<%=i%>,this.value, '<%=tmpArray2[1]%>')"
-						value="<%=tmpArray2[1]%>"><%=tmpArray2[1]%></button>
+						value="<%=tmpArray2[1]%>" style="width:100%"><%=tmpArray2[1]%></button>
+						</div>
 					<%
 						}
 
 										break;
 									}
 					%>
+					<div style = "line-height: 40px;">
 					<button class="answerBtn<%=i%>"
 						onclick="myFunction(<%=i%>,this.value , '<%=tmpArray2[0]%>')"
-						value="<%=answerList.get(j)%>"><%=answerList.get(j)%></button>
+						value="<%=answerList.get(j)%>" style="width:100%"><%=answerList.get(j)%></button>
+						</div>
 					<%
 						}
 
 								if (correctIndex == 3) {
 									if (type.equals("word")) {
 					%>
+					<div style = "line-height: 40px;">
 					<button class="answerBtn<%=i%>"
 						onclick="myFunction(<%=i%>,this.value, '<%=tmpArray2[2]%>')"
-						value="<%=tmpArray2[2]%>"><%=tmpArray2[2]%></button>
+						value="<%=tmpArray2[2]%>" style="width:100%"><%=tmpArray2[2]%></button>
+						</div>
 					<%
 						} else {
 					%>
+					<div style = "line-height: 40px;">
 					<button class="answerBtn<%=i%>"
 						onclick="myFunction(<%=i%>,this.value, '<%=tmpArray2[1]%>')"
-						value="<%=tmpArray2[1]%>"><%=tmpArray2[1]%></button>
+						value="<%=tmpArray2[1]%>" style="width:100%"><%=tmpArray2[1]%></button>
+						</div>
 					<%
 						}
 
 								} else {
 									while (j < answerList.size()) {
 					%>
+					<div style = "line-height: 40px;">
 					<button class="answerBtn<%=i%>"
 						onclick="myFunction(<%=i%>,this.value, '<%=tmpArray2[0]%>')"
-						value="<%=answerList.get(j)%>"><%=answerList.get(j)%></button>
+						value="<%=answerList.get(j)%>" style="width:100%"><%=answerList.get(j)%></button></div>
 					<%
 						j += 1;
 									}
@@ -451,7 +475,7 @@ p {
 	<script>
 var solvedCnt = 0;
 var score = 0;
-var questionNum = 20; //문항수(이만큼 풀면 결과페이지로 넘어감)
+var questionNum = 3; //문항수(이만큼 풀면 결과페이지로 넘어감)
 <%-- document.form1.type.value = "<%= type %>"; --%>
 document.form1.level.value = "<%=level%>";
 function myFunction(itemIndex, boxValue, str) {

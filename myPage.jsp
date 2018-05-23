@@ -210,14 +210,15 @@
 			</table>
 			
 			<hr>
-			<h3>자격증</h3>
+			<h3>단어장</h3>
 			<table class="table table-fixed">
 			
 				<thead>
 					<tr style="color: white;">
-						<th class="col-xs-3">급수</th>
+						<th class="col-xs-2">급수</th>
 						<th class="col-xs-3">한자</th>
-						<th class="col-xs-6">뜻</th>
+						<th class="col-xs-4">뜻</th>
+						<th class="col-xs-3">비고</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -231,13 +232,14 @@
 							reader = new BufferedReader(new FileReader(filePath));
 
 							while ((str = reader.readLine()) != null) {
-								cnt++;
+								cnt2++;
 								tmpArray = str.split("\\|");
 					%>
 					<tr>
-						<td class="col-xs-3"><%=tmpArray[0]%></td>
+						<td class="col-xs-2"><%=tmpArray[0]%></td>
 						<td class="col-xs-3"><%=tmpArray[1]%></td>
-						<td class="col-xs-6"><%=tmpArray[2]%></td>
+						<td class="col-xs-4"><%=tmpArray[2]%></td>
+						<td class="col-xs-3"><button type="button">삭제하기</button></td>
 					</tr>
 					<%
 						}
@@ -261,18 +263,17 @@
 				<form name="form1" action="insertWordProc.jsp?mode=myPage" method="post">
 				<tr>
 					
-						<td class="col-xs-3"><input type="number" min="1" max="8"
+						<td class="col-xs-2"><input type="number" min="1" max="8"
 							class="form-control" name="level" placeholder="N"
 							style="text-align: center;"></td>
 						<td class="col-xs-3"><input type="text" class="form-control"
 							name="cc" placeholder="한자" style="text-align: center;"></td>
-						<td class="col-xs-6"><input type="text" class="form-control"
+						<td class="col-xs-4"><input type="text" class="form-control"
 							name="meaning" placeholder="뜻" style="text-align: center;"></td>
-				</tr>
-				<tr>
-					<td class="col-xs-12"><input type="button"
+			
+				<td class="col-xs-3"><input type="button"
 						class="btn btn-success" value="추가하기" onClick="notice()"></td>
-				</tr>
+				
 
 				</form>
 				</tfooter>

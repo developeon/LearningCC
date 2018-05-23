@@ -31,10 +31,6 @@
 		String cc = request.getParameter("cc");
 		String meaning = request.getParameter("meaning");
 
-		System.out.println(level);
-		System.out.println(cc);
-		System.out.println(meaning);
-		
 		String filePath;//읽고 쓸때 모두 사용
 
 		//마지막 pk읽어서 그다음 pk로 등록
@@ -46,7 +42,7 @@
 		
         String s;
         int cntForCount = 0;
-        String lastLine = null;;
+        String lastLine = "";
         String[] lastLineSplitArray;
 	
 		try {
@@ -55,21 +51,22 @@
 				lastLine = s;
 		     }
 			 
-			if(cntForCount > 0){
-				lastLineSplitArray = lastLine.split("/");
-				pk = Integer.parseInt(lastLineSplitArray[0]) + 1;
-			}
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
 			reader.close();
+		}
+		if(cntForCount > 0){
+			lastLineSplitArray = lastLine.split("\\|");
+			pk = Integer.parseInt(lastLineSplitArray[0]) + 1;
 		}
 		
 		BufferedWriter writer = null;
 		try {
 			filePath = application.getRealPath("/WEB-INF/level" + level + ".txt");
 			writer = new BufferedWriter(new FileWriter(filePath, true));
-			writer.write(pk + "|" + cc + "|" + meaning + "|" + System.lineSeparator());
+			writer.write(pk + "|" + cc + "|" + meaning + System.lineSeparator());
 		} catch (Exception e) {
 			out.print("오류 발생");
 		} finally {

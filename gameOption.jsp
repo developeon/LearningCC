@@ -101,7 +101,7 @@
 				
 					<div class="form-group">						
 							<input type="number" class="form-control"
-									placeholder="급수" name="level">
+									placeholder="급수" name="level" max="8" min = "1">
 					</div>
 				
 					<div class="form-group" style="text-align: center;">

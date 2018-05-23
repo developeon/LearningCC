@@ -162,6 +162,25 @@ background-image: linear-gradient(to bottom right,#02b3e4,#02ccba);
 	}
 	
 }
+
+.table-fixed {
+	width: 70%;
+}
+
+.table-fixed tbody {
+	height: 70%;
+	width: 100%;
+}
+
+.table-fixed thead, tbody, tr, td, th {
+	text-align: center;
+}
+
+.table-fixed thead tr th {
+
+	background-color: #5cb85c;
+	border: none;
+}
 </style>
 <script>
 
@@ -174,12 +193,23 @@ $(window).on("load",function(){
 </script>
 </head>
 <body>
+		<%
+		String strReferer = request.getHeader("referer");
+
+		if (strReferer == null) {
+	%>
+	<script language="javascript">
+		alert("URL 주소창에 주소를 직접 입력해서 접근하셨습니다.\n\n정상적인 경로를 통해 다시 접근해 주십시오.");
+		document.location.href = "index.jsp";
+	</script>
 	<%
+		return;
+		}
 	    String isPass = "no";
 	    String isChange = "no";
 	    String isPerfect = "no";
 	    String wrongCC = "";
-	    int passScore = 80; //통과하는 점수
+	    int passScore = 5; //통과하는 점수
 	    
 	    Date today = new Date();	        
 	    SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
@@ -282,7 +312,7 @@ $(window).on("load",function(){
 
 			for (int i = 0; i < tmpList.size(); i++) {
 						splitTextArray = tmpList.get(i).split("\\|");
-						wrongCC += splitTextArray[1] + splitTextArray[2] + System.lineSeparator();
+						wrongCC += splitTextArray[0] + "|" +  splitTextArray[1] + "|" + splitTextArray[2] + System.lineSeparator();
 			}
 		}
 		
@@ -340,8 +370,15 @@ $(window).on("load",function(){
 		else{
 			%>
 			<br>
-			<%=wrongCC%>
-			<% 
+			<%
+			String passWrongArray[] = wrongCC.split(System.lineSeparator());
+			for(int i = 0; i< passWrongArray.length; i++){
+				%>
+				<%=passWrongArray[i]%><br>
+				<%
+			}
+			
+		 
 		} //not perfect
 		%>
 		</p>
@@ -354,10 +391,105 @@ $(window).on("load",function(){
 	}//pass
 	else{
 		%>
-		시험에 통과하지 못하셨습니다.
+		<nav class="navbar navbar-default">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+				aria-expanded="false">
+
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="index.jsp">한자학습</a>
+		</div>
+
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+	
+					<li ><a href="myPage.jsp">내 정보</a></li>
+					<li ><a href="option.jsp">단어 학습</a></li>
+					<li><a href="gameOption.jsp">단어 게임</a></li>
+					<li><a href="logout.jsp">로그아웃</a></li>
+				
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="ture"
+					aria-expanded="false"><%out.print(userID + "님");%><span class="caret"></span></a>
+					<ul class="dropdown-menu">
+					<li class="active"><a href="index.jsp">메인</a></li>
+						<li ><a href="myPage.jsp">내 정보</a></li>
+						<li><a href="option.jsp">단어 학습</a></li>
+						<li><a href="gameOption.jsp">단어 게임</a></li>
+						<li ><a href="logout.jsp">로그아웃</a></li>
+						
+					</ul></li>
+			</ul>
+
+
+		</div>
+	</nav>
+	<div class = "container">
+	  시험에 통과하지 못했습니다.(<%=score%>점)<br>
+	  ID: <%= userID %><br>
+	  Date: <%=date.format(today)%><br>
+	  틀린문제
+	  <table class="table table-fixed">
+			
+				<thead>
+					<tr>
+						<th class="col-xs-3">한자</th>
+						<th class="col-xs-6">뜻</th>
+						<th class="col-xs-3">비고</th>
+					</tr>
+				</thead>
+				<tbody>
+					  <%String wrongTmpArray[] = wrongCC.split(System.lineSeparator());
+					  String wrongtmpArray2[];
+					  for(int i = 0; i < wrongTmpArray.length; i++){
+						  wrongtmpArray2 = wrongTmpArray[i].split("\\|");
+						  
+						  %>
+
+						  <tr>
+						  <th class="col-xs-3"><%=wrongtmpArray2[1]%></th>
+						<th class="col-xs-6"><%=wrongtmpArray2[2]%></th>
+						<th class="col-xs-3"><button type="button" id = "wordBtn<%=wrongtmpArray2[0]%>" class="btn" onClick = "addWordBook(<%=wrongtmpArray2[0]%>, '<%=level%>')" value = "no"><span id = "btnText<%=wrongtmpArray2[0]%>">단어장에 추가하기</span></button></th>
+						  </tr>
+						  <% 
+					  }%>
+				</tbody>
+		</table>
+	</div>
 		<% 
 	}//fail
 	%>
-
+	<script>
+     function addWordBook(itemIndex, level){
+		var wordBtn = document.getElementById("wordBtn" + itemIndex);
+		var btnText = document.getElementById("btnText" + itemIndex);
+		
+		if(wordBtn.value == "no"){
+			 wordBtn.value = "yes";
+			 btnText.innerText = "단어장에서 삭제하기";
+			  var URL = "insertWordProc.jsp?level=" + level + "&pk=" + itemIndex;
+			 
+		}
+		
+		else{
+			wordBtn.value = "no";
+			btnText.innerText = "단어장에 추가하기";
+			var URL = "removeWordProc.jsp?level=" + level + "&pk=" + itemIndex;
+			
+		}
+		 var popupX = (window.screen.width/2) - 150;
+		  var popupY= (window.screen.height/2) - 100;
+		  window.open(URL, '', 'status=no, height=200, width=300, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+	
+	}
+	</script>
+	
 </body>
 </html>
