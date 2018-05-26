@@ -16,6 +16,7 @@
 <style>
 .table-fixed {
 	width: 70%;
+	 
 }
 
 .table-fixed tbody {
@@ -35,7 +36,7 @@
 
 .table-fixed thead tr th {
 	float: left;
-	background-color: #5cb85c;
+	background-color: #337ab7;
 	border: none;
 }
 </style>
@@ -74,7 +75,7 @@
 				%>
 				<li class="active"><a href="myPage.jsp">내 정보</a></li>
 				<li><a href="option.jsp">단어 학습</a></li>
-				<li><a href="gameOption.jsp">단어 게임</a></li>
+				<li><a href="gameOption.jsp">단어 시험</a></li>
 				<li><a href="logout.jsp">로그아웃</a></li>
 				<%
 					}
@@ -109,7 +110,7 @@
 						%>
 						<li class="active"><a href="myPage.jsp">내 정보</a></li>
 						<li><a href="option.jsp">단어 학습</a></li>
-						<li><a href="gameOption.jsp">단어 게임</a></li>
+						<li><a href="gameOption.jsp">단어 시험</a></li>
 						<li><a href="logout.jsp">로그아웃</a></li>
 						<%
 							}
@@ -151,10 +152,10 @@
 	
 
 	if(level.equals("9")){
-		out.print("당신은 아직 급수가 없습니다.");
+		out.print("<div class='alert alert-warning'> 당신은 아직 급수정보가 없습니다. <a href='gameOption.jsp' class='alert-link'> 8급 시험에 도전하세요!</a></div>");
 	}
 	else{
-		out.print("<h1>당신은 현재 <b>" + level + "급</b> 입니다.</h1>");
+		out.print("<div class='alert alert-info'> 당신은 현재 <strong>"+ level +"급</strong>입니다.</div>");
 	}
 	%>
 	<hr>
@@ -236,10 +237,10 @@
 								tmpArray = str.split("\\|");
 					%>
 					<tr>
-						<td class="col-xs-2"><%=tmpArray[0]%></td>
-						<td class="col-xs-3"><%=tmpArray[1]%></td>
-						<td class="col-xs-4"><%=tmpArray[2]%></td>
-						<td class="col-xs-3"><button type="button">삭제하기</button></td>
+						<td class="col-xs-2"><%=tmpArray[1]%></td>
+						<td class="col-xs-3"><%=tmpArray[2]%></td>
+						<td class="col-xs-4"><%=tmpArray[3]%></td>
+						<td class="col-xs-3"><button type="button" class = "btn btn-info" onClick="removeWordBook(<%=tmpArray[0]%>)">삭제하기</button></td>
 					</tr>
 					<%
 						}
@@ -270,11 +271,11 @@
 							name="cc" placeholder="한자" style="text-align: center;"></td>
 						<td class="col-xs-4"><input type="text" class="form-control"
 							name="meaning" placeholder="뜻" style="text-align: center;"></td>
+							
 			
 				<td class="col-xs-3"><input type="button"
-						class="btn btn-success" value="추가하기" onClick="notice()"></td>
-				
-
+						class="btn btn-info" value="추가하기" onClick="notice()"></td>
+						</tr>
 				</form>
 				</tfooter>
 
@@ -286,7 +287,19 @@
 		function notice() {
 			alert("추가되었습니다");
 			form1.submit();
+			
 		}
-	</script>
+		
+
+	     function removeWordBook(pk){
+		    var URL = "removeWordProc.jsp?mode=myPage&pk=" + pk;
+			 var popupX = (window.screen.width/2) - 150;
+			  var popupY= (window.screen.height/2) - 100;
+			  window.open(URL, '', 'status=no, height=200, width=300, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+			 location.href = "myPage.jsp";
+		}
+		</script>
+
+
 </body>
 </html>

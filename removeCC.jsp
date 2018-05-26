@@ -67,7 +67,7 @@
 					} else if (userID.equals("admin")) {
 				%>
 				<li><a href="insertCC.jsp">단어 추가</a></li>
-				<li class="active"><a href="removeWord.jsp">단어 삭제</a></li>
+				<li class="active"><a href="removeCC.jsp">단어 삭제</a></li>
 				<li><a href="logout.jsp">로그아웃</a></li>
 				<%
 					} else {

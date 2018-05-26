@@ -178,7 +178,7 @@ background-image: linear-gradient(to bottom right,#02b3e4,#02ccba);
 
 .table-fixed thead tr th {
 
-	background-color: #5cb85c;
+	background-color: #337ab7;
 	border: none;
 }
 </style>
@@ -410,7 +410,7 @@ $(window).on("load",function(){
 	
 					<li ><a href="myPage.jsp">내 정보</a></li>
 					<li ><a href="option.jsp">단어 학습</a></li>
-					<li><a href="gameOption.jsp">단어 게임</a></li>
+					<li><a href="gameOption.jsp">단어 시험</a></li>
 					<li><a href="logout.jsp">로그아웃</a></li>
 				
 			</ul>
@@ -422,7 +422,7 @@ $(window).on("load",function(){
 					<li class="active"><a href="index.jsp">메인</a></li>
 						<li ><a href="myPage.jsp">내 정보</a></li>
 						<li><a href="option.jsp">단어 학습</a></li>
-						<li><a href="gameOption.jsp">단어 게임</a></li>
+						<li><a href="gameOption.jsp">단어 시험</a></li>
 						<li ><a href="logout.jsp">로그아웃</a></li>
 						
 					</ul></li>
@@ -462,6 +462,9 @@ $(window).on("load",function(){
 					  }%>
 				</tbody>
 		</table>
+		<p>
+		<button type="button" class="btn" onClick = "location.href = 'index.jsp'">돌아가기</button>
+		</p>
 	</div>
 		<% 
 	}//fail
@@ -475,7 +478,7 @@ $(window).on("load",function(){
 			 wordBtn.value = "yes";
 			 btnText.innerText = "단어장에서 삭제하기";
 			  var URL = "insertWordProc.jsp?level=" + level + "&pk=" + itemIndex;
-			 
+			
 		}
 		
 		else{

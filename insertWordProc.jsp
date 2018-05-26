@@ -33,16 +33,18 @@
 		String level = request.getParameter("level");
 		String cc = "";
 		String meaning = "";
+		
 		String filePath;
+		BufferedReader reader = null;
+		String str;
+
 		if(mode == null){
 		String pk = request.getParameter("pk");
 		//알맞은 데이터 읽어오기
-		BufferedReader reader = null;
-		filePath = application.getRealPath("/WEB-INF/level" + level + ".txt");
-		String str;
+		
 		String tmpArray[];
-
 		try {
+			filePath = application.getRealPath("/WEB-INF/level" + level + ".txt");
 			reader = new BufferedReader(new FileReader(filePath));
 			while ((str = reader.readLine()) != null) {
 				tmpArray = str.split("\\|");
@@ -52,23 +54,50 @@
 					break;
 				}
 			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			reader.close();
 		}
-		}//학습 중 추가
+		}//학습 중 추가, result
 		
 		else{
 			cc = request.getParameter("cc");
 			meaning = request.getParameter("meaning");
 		}
+		
+		filePath = application.getRealPath("/WEB-INF/" + userID + ".txt");
 
+		String lastLine = "";
+		String lastLineSplitArray[];
+		int cntForCount = 0;
+		try{
+			reader = new BufferedReader(new FileReader(filePath));
+		
+		while ((str = reader.readLine()) != null) {
+			cntForCount++;
+			lastLine = str;
+		}}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		//get last pk
+		int pk = 1; // write할때 쓸 pk 
+		if(cntForCount > 0){
+			lastLineSplitArray = lastLine.split("\\|");
+			System.out.print(lastLineSplitArray[0] );
+			pk = Integer.parseInt(lastLineSplitArray[0]) + 1;
+		}
+		    
+		
 		//단어장에 쓰기
 		BufferedWriter writer = null;
 		try {
 			filePath = application.getRealPath("/WEB-INF/" + userID + ".txt");
 			writer = new BufferedWriter(new FileWriter(filePath, true));
-			writer.write(level + "급|" +  cc + "|" + meaning + System.lineSeparator());
+			writer.write(pk + "|" + level + "급|" +  cc + "|" + meaning + System.lineSeparator());
 		} catch (Exception e) {
 			out.print("오류 발생");
 		} finally {
@@ -80,11 +109,11 @@
 	<input type="button" value="close" onClick="closePopUp()">
 	<%}
 	else{
-	%>
-	<!-- 추가되었다는 popup 띄우기 -->
-	 
-	<jsp:forward page="myPage.jsp"></jsp:forward>
-	<%} %>
+
+	
+	response.sendRedirect("myPage.jsp");
+
+	} %>
 	<script>
 		function closePopUp() {
 			self.close();

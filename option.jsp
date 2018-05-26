@@ -43,7 +43,7 @@
 				%>
 				<li ><a href="myPage.jsp">내 정보</a></li>
 				<li class="active"><a href="option.jsp" >단어 학습</a></li>
-				<li><a href="gameOption.jsp">단어 게임</a></li>
+				<li><a href="gameOption.jsp">단어 시험</a></li>
 				<li><a href="logout.jsp">로그아웃</a></li>
 				<%
 					}
@@ -80,7 +80,7 @@
 						%>
 						<li ><a href="myPage.jsp">내 정보</a></li>
 						<li class="active"><a href="option.jsp" >단어 학습</a></li>
-						<li><a href="gameOption.jsp">단어 게임</a></li>
+						<li><a href="gameOption.jsp">단어 시험</a></li>
 						<li><a href="logout.jsp">로그아웃</a></li>
 						<%
 							}

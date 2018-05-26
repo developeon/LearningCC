@@ -43,7 +43,7 @@
 				%>
 				<li ><a href="myPage.jsp">내 정보</a></li>
 				<li><a href="option.jsp" >단어 학습</a></li>
-				<li class="active"><a href="gameOption.jsp">단어 게임</a></li>
+				<li class="active"><a href="gameOption.jsp">단어 시험</a></li>
 				<li><a href="logout.jsp">로그아웃</a></li>
 				<%
 					}
@@ -80,7 +80,7 @@
 						%>
 						<li ><a href="myPage.jsp">내 정보</a></li>
 						<li ><a href="option.jsp" >단어 학습</a></li>
-							<li class="active"><a href="gameOption.jsp">단어 게임</a></li>
+							<li class="active"><a href="gameOption.jsp">단어 시험</a></li>
 						<li><a href="logout.jsp">로그아웃</a></li>
 						<%
 							}
@@ -97,7 +97,7 @@
 		<div class="col-lg-4">
 			<div class="jumbotron" style="padding-top: 20px;">
 				<form name="form1" method="post" action="ccGame.jsp">
-					<h3 stlye="text-align:center;">단어 게임</h3>
+					<h3 stlye="text-align:center;">단어 시험</h3>
 				
 					<div class="form-group">						
 							<input type="number" class="form-control"
