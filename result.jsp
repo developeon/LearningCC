@@ -372,9 +372,26 @@ $(window).on("load",function(){
 			<br>
 			<%
 			String passWrongArray[] = wrongCC.split(System.lineSeparator());
+			String passwrongArray2[];
 			for(int i = 0; i< passWrongArray.length; i++){
-				%>
-				<%=passWrongArray[i]%><br>
+				
+				passwrongArray2 = passWrongArray[i].split("\\|");
+			
+				
+				for(int k = 1; k < passwrongArray2.length; k++){
+					if(k != passwrongArray2.length -1){
+						out.print(passwrongArray2[k] + " | ");
+					}
+					else{
+						out.print(passwrongArray2[k]);
+					}
+					
+					}
+					%>		
+				
+				<button type="button" id = "wordBtn<%=passwrongArray2[0]%>" class="btn" onClick = "addWordBook(<%=passwrongArray2[0]%>, '<%=level%>')" value = "no"><span id = "btnText<%=passwrongArray2[0]%>">단어장에 추가하기</span></button>
+				<br>
+				
 				<%
 			}
 			
@@ -409,8 +426,8 @@ $(window).on("load",function(){
 			<ul class="nav navbar-nav">
 	
 					<li ><a href="myPage.jsp">내 정보</a></li>
-					<li ><a href="option.jsp">단어 학습</a></li>
-					<li><a href="gameOption.jsp">단어 시험</a></li>
+					<li ><a href="option.jsp">한자 학습</a></li>
+					<li><a href="gameOption.jsp">한자 시험</a></li>
 					<li><a href="logout.jsp">로그아웃</a></li>
 				
 			</ul>
@@ -421,8 +438,8 @@ $(window).on("load",function(){
 					<ul class="dropdown-menu">
 					<li class="active"><a href="index.jsp">메인</a></li>
 						<li ><a href="myPage.jsp">내 정보</a></li>
-						<li><a href="option.jsp">단어 학습</a></li>
-						<li><a href="gameOption.jsp">단어 시험</a></li>
+						<li><a href="option.jsp">한자 학습</a></li>
+						<li><a href="gameOption.jsp">한자 시험</a></li>
 						<li ><a href="logout.jsp">로그아웃</a></li>
 						
 					</ul></li>

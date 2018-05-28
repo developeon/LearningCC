@@ -72,7 +72,9 @@
 		} finally {
 			writer.close();
 		}
+		
+		response.sendRedirect("insertCC.jsp");
 	%>
-	 <jsp:forward page="insertCC.jsp"></jsp:forward>
+	
 </body>
 </html>

@@ -68,14 +68,14 @@
 				<%
 					} else if (userID.equals("admin")) {
 				%>
-				<li><a href="#">단어 추가</a></li>
+				<li><a href="#">한자 추가</a></li>
 				<li><a href="logout.jsp">로그아웃</a></li>
 				<%
 					} else {
 				%>
 				<li class="active"><a href="myPage.jsp">내 정보</a></li>
-				<li><a href="option.jsp">단어 학습</a></li>
-				<li><a href="gameOption.jsp">단어 시험</a></li>
+				<li><a href="option.jsp">한자 학습</a></li>
+				<li><a href="gameOption.jsp">한자 시험</a></li>
 				<li><a href="logout.jsp">로그아웃</a></li>
 				<%
 					}
@@ -102,15 +102,15 @@
 						<%
 							} else if (userID.equals("admin")) {
 						%>
-						<li><a href="#">단어 추가</a></li>
+						<li><a href="#">한자 추가</a></li>
 						<li><a href="logout.jsp">로그아웃</a></li>
 
 						<%
 							} else {
 						%>
 						<li class="active"><a href="myPage.jsp">내 정보</a></li>
-						<li><a href="option.jsp">단어 학습</a></li>
-						<li><a href="gameOption.jsp">단어 시험</a></li>
+						<li><a href="option.jsp">한자 학습</a></li>
+						<li><a href="gameOption.jsp">한자 시험</a></li>
 						<li><a href="logout.jsp">로그아웃</a></li>
 						<%
 							}
